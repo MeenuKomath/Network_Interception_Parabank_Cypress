@@ -1,11 +1,12 @@
-import { LoginPage } from '../pages/Loginpage';
-import { AccountPage } from '../pages/Accountpage';
+// cypress/support/e2e.js
 
-// Instantiate objects once globally
+// Change 'pages' to 'Pages' to satisfy the Linux runner casing requirements
+import { LoginPage } from '../Pages/Loginpage';
+import { AccountPage } from '../Pages/Accountpage';
+
 const loginPageInstance = new LoginPage();
 const accountPageInstance = new AccountPage();
 
-// Attach objects directly to the chainable cy runtime execution layer
 beforeEach(() => {
     cy.loginPage = loginPageInstance;
     cy.accountPage = accountPageInstance;
