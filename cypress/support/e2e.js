@@ -1,13 +1,9 @@
 // cypress/support/e2e.js
-
-// Change 'pages' to 'Pages' to satisfy the Linux runner casing requirements
-import { LoginPage } from '../Pages/Loginpage';
-import { AccountPage } from '../Pages/Accountpage';
-
-const loginPageInstance = new LoginPage();
-const accountPageInstance = new AccountPage();
+import 'cypress-mochawesome-reporter/register';
+import { LoginPage } from '../pages/LoginPage';
+import { AccountPage } from '../pages/AccountPage';
 
 beforeEach(() => {
-    cy.loginPage = loginPageInstance;
-    cy.accountPage = accountPageInstance;
+    cy.loginPage = new LoginPage();
+    cy.accountPage = new AccountPage();
 });

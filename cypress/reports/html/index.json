@@ -1,0 +1,148 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 3,
+    "passes": 3,
+    "pending": 0,
+    "failures": 0,
+    "testsRegistered": 3,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false,
+    "start": "2026-11-12T02:25:22.874Z",
+    "end": "2026-11-12T02:25:35.420Z",
+    "duration": 12546
+  },
+  "results": [
+    {
+      "uuid": "91812ef2-59ca-4190-9e63-594e3313e003",
+      "title": "",
+      "fullFile": "cypress\\e2e\\test.spec.cy.js",
+      "file": "cypress\\e2e\\test.spec.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "fadf34b9-1c6f-473b-9ca9-cb151b51e66b",
+          "title": "Network Interception - ParaBank Application",
+          "fullFile": "cypress\\e2e\\test.spec.cy.js",
+          "file": "cypress\\e2e\\test.spec.cy.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "TC : 01 - Intercept and Verification of ParaBank Login",
+              "fullTitle": "Network Interception - ParaBank Application TC : 01 - Intercept and Verification of ParaBank Login",
+              "timedOut": null,
+              "duration": 6673,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": "[\n    {\n        \"title\": \"Spec video recording\",\n        \"value\": \"videos/test.spec.cy.js.mp4\"\n    }\n]",
+              "code": "runParaBankTest(['interceptLoginRequest'], ({\n  loginPage,\n  accountPage,\n  username,\n  password\n}) => {\n  loginPage.navigate();\n  loginPage.login(username, password);\n  cy.wait('@loginRequest').then(interception => {\n    accountPage.accountTable.should('be.visible');\n    cy.task('log', '================ INTERCEPTED LOGIN DETAILS ================');\n    cy.task('log', `Request URL: ${interception.request.url}`);\n    cy.task('log', `Request Method: ${interception.request.method}`);\n    cy.task('log', `Request Headers: ${JSON.stringify(interception.request.headers, null, 2)}`);\n    cy.task('log', `Request Body: ${interception.request.body}`);\n    // Response Details (Safely checks if a response was returned)\n    if (interception.response) {\n      cy.task('log', `Response Status Code: ${interception.response.statusCode}`);\n      cy.task('log', `Response Headers: ${JSON.stringify(interception.response.headers, null, 2)}`);\n    }\n    cy.task('log', '===========================================================');\n  });\n});",
+              "err": {},
+              "uuid": "fef76766-dfc0-41fa-ab4e-65a267f7eb49",
+              "parentUUID": "fadf34b9-1c6f-473b-9ca9-cb151b51e66b",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "TC : 02 - Intercept and Mock Accounts Overview Table",
+              "fullTitle": "Network Interception - ParaBank Application TC : 02 - Intercept and Mock Accounts Overview Table",
+              "timedOut": null,
+              "duration": 3431,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": "[\n    {\n        \"title\": \"Spec video recording\",\n        \"value\": \"videos/test.spec.cy.js.mp4\"\n    }\n]",
+              "code": "runParaBankTest(['mockAccountOverview'], ({\n  loginPage,\n  accountPage,\n  username,\n  password\n}) => {\n  loginPage.navigate();\n  loginPage.login(username, password);\n  cy.wait('@mockAccountOverview');\n  accountPage.accountTable.should('be.visible');\n  accountPage.verifyAccountRow(0, '12345', '-$3310.00', '$0.00');\n  accountPage.verifyAccountRow(1, '12456', '$420.45', '$420.45');\n  accountPage.verifyTotalRow('-$2889.55');\n  cy.log('All mock data assertions passed successfully!');\n});",
+              "err": {},
+              "uuid": "f91aff35-8ee6-45fb-993d-287a3763e353",
+              "parentUUID": "fadf34b9-1c6f-473b-9ca9-cb151b51e66b",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "TC : 03 - Abort Interception (Network Failure)",
+              "fullTitle": "Network Interception - ParaBank Application TC : 03 - Abort Interception (Network Failure)",
+              "timedOut": null,
+              "duration": 2155,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": "[\n    {\n        \"title\": \"Spec video recording\",\n        \"value\": \"videos/test.spec.cy.js.mp4\"\n    }\n]",
+              "code": "runParaBankTest(['abortLoginRequest'], ({\n  loginPage,\n  username,\n  password\n}) => {\n  loginPage.navigate();\n  loginPage.login(username, password, true);\n  cy.wait('@abortLoginRequest').then(interception => {\n    expect(interception.response.statusCode).to.eq(500);\n  });\n  cy.url().should('include', 'login.htm');\n});",
+              "err": {},
+              "uuid": "0c27da38-59d1-4145-acdb-10e853da6658",
+              "parentUUID": "fadf34b9-1c6f-473b-9ca9-cb151b51e66b",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "fef76766-dfc0-41fa-ab4e-65a267f7eb49",
+            "f91aff35-8ee6-45fb-993d-287a3763e353",
+            "0c27da38-59d1-4145-acdb-10e853da6658"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 12259,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "8.1.1"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress\\reports\\html\\.jsons",
+        "charts": true,
+        "reportPageTitle": "ParaBank Network Interception Report",
+        "embeddedScreenshots": true,
+        "inlineAssets": true,
+        "saveJson": true,
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.3.2"
+    }
+  }
+}

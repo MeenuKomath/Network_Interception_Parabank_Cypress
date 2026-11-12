@@ -40,39 +40,38 @@ describe("Network Interception - ParaBank Application", () => {
             loginPage.navigate();
             loginPage.login(username, password);
 
-            cy.wait('@loginRequest');
-            accountPage.accountTable.should('be.visible');
+            cy.wait('@loginRequest').then((interception) => {
+                accountPage.accountTable.should('be.visible');
+
+                cy.task('log', '================ INTERCEPTED LOGIN DETAILS ================');
+                cy.task('log', `Request URL: ${interception.request.url}`);
+                cy.task('log', `Request Method: ${interception.request.method}`);
+                cy.task('log', `Request Headers: ${JSON.stringify(interception.request.headers, null, 2)}`);
+                cy.task('log', `Request Body: ${interception.request.body}`);
+
+                // Response Details (Safely checks if a response was returned)
+                if (interception.response) {
+                    cy.task('log', `Response Status Code: ${interception.response.statusCode}`);
+                    cy.task('log', `Response Headers: ${JSON.stringify(interception.response.headers, null, 2)}`);
+                }
+                cy.task('log', '===========================================================');
+            });
         });
     });
 
-    it('TC : 02 - Intercept and Mock Accounts Overview Table', () => {
 
+    it('TC : 02 - Intercept and Mock Accounts Overview Table', () => {
         runParaBankTest(['mockAccountOverview'], ({ loginPage, accountPage, username, password }) => {
             loginPage.navigate();
             loginPage.login(username, password);
 
             cy.wait('@mockAccountOverview');
+
             accountPage.accountTable.should('be.visible');
 
-            // ─── Assert Row 1 Content Natively ───
-            accountPage.accountRows.eq(0).within(() => {
-                cy.get('td').eq(0).should('have.text', '12345');
-                cy.get('td').eq(1).should('have.text', '-$3310.00');
-                cy.get('td').eq(2).should('have.text', '$0.00');
-            });
-
-            // ─── Assert Row 2 Content Natively ───
-            accountPage.accountRows.eq(1).within(() => {
-                cy.get('td').eq(0).should('have.text', '12456');
-                cy.get('td').eq(1).should('have.text', '$420.45');
-                cy.get('td').eq(2).should('have.text', '$420.45');
-            });
-
-            // ─── Assert Total Row Summary Content Natively ───
-            accountPage.totalRow.within(() => {
-                cy.get('td').contains('Total').should('be.visible');
-                cy.get('td').filter(':contains("$")').should('have.text', '-$2889.55');
-            });
+            accountPage.verifyAccountRow(0, '12345', '-$3310.00', '$0.00');
+            accountPage.verifyAccountRow(1, '12456', '$420.45', '$420.45');
+            accountPage.verifyTotalRow('-$2889.55');
 
             cy.log('All mock data assertions passed successfully!');
         });

@@ -1,5 +1,5 @@
-import { LoginPage } from 'cypress/pages/Loginpage';
-import { AccountPage } from 'cypress/pages/Accountpage'; 
+import { LoginPage } from 'cypress/pages/LoginPage';
+import { AccountPage } from 'cypress/pages/AccountPage'; 
 
 const loginPage = new LoginPage();
 const accountPage = new AccountPage();

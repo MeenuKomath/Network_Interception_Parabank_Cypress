@@ -1,5 +1,5 @@
+// cypress/pages/LoginPage.js
 export class LoginPage {
-   
     get usernameInput() {
         return cy.get('input[name="username"]');
     }
@@ -12,23 +12,22 @@ export class LoginPage {
         return cy.get('input[value="Log In"]');
     }
 
-    
     navigate() {
-     
-        cy.visit('/parabank/index.htm')
+       
+        const loginPath = Cypress.expose('loginPath');
+        cy.visit(loginPath);
+        cy.task('log', '--- Successfully visited the Login page ---');
     }
 
     /**
      * Executes the login workflow sequence
      * @param {string} username 
      * @param {string} password 
-     * @param {boolean} expectFailure - Included for spec matching (Cypress handles network automatically)
+     * @param {boolean} expectFailure 
      */
     login(username, password, expectFailure = false) {
-        
         if (username) this.usernameInput.type(username);
         if (password) this.passwordInput.type(password);
         this.loginButton.click();
-
     }
 }
